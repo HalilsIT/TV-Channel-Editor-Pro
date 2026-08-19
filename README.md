@@ -1,5 +1,30 @@
 # TV Channel Editor Pro
+
 Offline universal TV channel list editor for Sony, Samsung and soon LG TVs.
+
+**Current beta:** `v6.0.0.2`
+
+## Screenshots
+
+### Demo / OLED Theme
+
+![TV Channel Editor Pro - Demo OLED Theme](demo-oled.png)
+
+### Sony Bravia — Real SDB File
+
+Real Sony `sdb.xml` support has been validated on actual TV hardware.
+
+![TV Channel Editor Pro - Sony Bravia](sony-bravia.png)
+
+### Samsung Legacy SCM — Experimental
+
+Samsung Legacy SCM support is currently experimental and has not yet been validated on real Samsung TV hardware.
+
+![TV Channel Editor Pro - Samsung SCM](samsung-scm.png)
+
+English interface example:
+
+![TV Channel Editor Pro - Samsung SCM English](samsung-scm-ENG.png)
 
 ## Current Status
 
@@ -26,17 +51,17 @@ Offline universal TV channel list editor for Sony, Samsung and soon LG TVs.
 ### Sony
 Sony Bravia `sdb.xml`
 
-Status: Real-TV validated.
+Status: **Real-TV validated.**
 
 ### Samsung
 Legacy Samsung SCM / `map-SateD`
 
-Status: Experimental.
+Status: **Experimental.**
 
 ### LG
 Legacy binary `.TLL`
 
-Status: Development started with beta v6.
+Status: **Development started with beta v6.**
 
 ## Privacy
 
