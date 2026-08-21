@@ -1,8 +1,8 @@
 # TV Channel Editor Pro
 
-Offline universal TV channel list editor for Sony, Samsung and soon LG TVs.
+Offline universal TV channel list editor for Sony, Samsung and LG TVs.
 
-**Current beta:** `v6.0.0.2`
+**Current beta:** `v6.1.0.0`
 
 ## Screenshots
 
@@ -30,7 +30,8 @@ English interface example:
 
 - Sony Bravia SDB support: validated on real TV hardware
 - Samsung Legacy SCM support: experimental
-- LG TLL support: under development
+- LG webOS `GlobalClone00001.TLL` support: experimental (beta v6.1)
+- LG legacy binary `xx*.TLL` support: planned / under development
 - Fully offline, single-file HTML application
 - No cookies, no cloud processing, no external upload
 
@@ -58,10 +59,17 @@ Legacy Samsung SCM / `map-SateD`
 
 Status: **Experimental.**
 
-### LG
-Legacy binary `.TLL`
+### LG webOS
+`GlobalClone00001.TLL`
 
-Status: **Development started with beta v6.**
+Status: **Experimental support added in beta v6.1.0.0. Real-TV validation pending.**
+
+The current adapter reads the XML `legacybroadcast` payload, parses its embedded JSON `channelList`, and preserves unrelated file data during export as much as possible.
+
+### LG Legacy / NetCast
+Binary `xx*.TLL`
+
+Status: **Planned / under development.**
 
 ## Privacy
 
