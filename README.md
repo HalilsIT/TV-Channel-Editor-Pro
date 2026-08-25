@@ -1,10 +1,14 @@
 # TV Channel Editor Pro
 
-Offline universal TV channel list editor for Sony, Samsung, LG and additional TV platforms.
+Offline universal TV channel list editor for Sony, Samsung, LG, TCL/Thomson, Vestel and compatible channel-list formats.
 
-**Current development branch:** `v7.0.0.0-dev`
+**Current release candidate:** `v7.9.0.0-rc1`
 
-The v7 line keeps the existing HalilsIT browser interface and begins a controlled port of selected TV-format parsing/serialization knowledge from ChanSort.
+**Development branch:** `v7-dev`
+
+The v7 line keeps the HalilsIT browser interface and uses selected TV-format parsing, serialization, layout and checksum knowledge derived from ChanSort where appropriate.
+
+The project is currently in **feature freeze / stabilization**. Hisense and Philips are intentionally not advertised as supported until real sample exports are available for round-trip validation.
 
 ## Screenshots
 
@@ -18,9 +22,9 @@ Real Sony `sdb.xml` support has been validated on actual TV hardware.
 
 ![TV Channel Editor Pro - Sony Bravia](sony-bravia.png)
 
-### Samsung Legacy SCM — Experimental
+### Samsung Legacy SCM
 
-Samsung Legacy SCM support is currently experimental and has not yet been validated on real Samsung TV hardware.
+Samsung Legacy SCM has software-level parser/export/checksum validation. Real Samsung TV import validation is still pending.
 
 ![TV Channel Editor Pro - Samsung SCM](samsung-scm.png)
 
@@ -30,67 +34,99 @@ English interface example:
 
 ## Current Status
 
-- Sony Bravia SDB support: validated on real TV hardware
-- Samsung Legacy SCM support: experimental
-- LG webOS `GlobalClone00001.TLL` support: experimental
-- LG Legacy / NetCast binary `xx*.TLL`: v7 ChanSort-derived pilot
-- Vestel-platform `.sdx` / `SATCODX`: experimental
-- Fully offline, single-file HTML application
+- Sony Bravia `sdb.xml`: **real-TV validated**
+- Samsung Legacy `.scm` / `map-SateD` 144/168/172-byte profiles: **software tested**
+- LG webOS `GlobalClone*.TLL`: **experimental**
+- LG Legacy / NetCast binary `xx*.TLL`: **software-tested v7 ChanSort-derived pilot**
+- TCL / Thomson `.tar` with `DtvData.db` + `cloneCRC.bin`: **software round-trip tested with a real sample**
+- Vestel `.sdx` / `SATCODX`: **experimental**
+- Hisense: **not actively supported — real sample required**
+- Philips: **not actively supported — real sample required**
+- Fully offline browser application
 - No cookies, no cloud processing, no external upload
 
 ## Features
 
 - Channel search and filtering
-- TV / Radio and source filtering
+- TV / Radio filtering
+- Uydu / Kablo / Karasal source filtering
+- Listede / Gizli status filtering
+- Add-to-end / add-to-start mode
 - Drag-and-drop channel ordering
-- Bulk add / reversible remove
+- Bulk add and reversible remove
 - Manual channel numbering
 - Multi-column wide editing mode
 - Undo / redo
 - Turkish and English interface
 - Multiple themes
 - Automatic TV format detection through modular adapters
+- In-app supported-format information panel
 
-## Supported / Planned Formats
+## Supported Formats
 
-### Sony
-Sony Bravia `sdb.xml`
+### Sony Bravia
+
+`sdb.xml`
 
 Status: **Real-TV validated.**
 
-### Samsung
-Legacy Samsung SCM / `map-SateD`
+### Samsung Legacy
 
-Status: **Experimental.** The v7 roadmap will use ChanSort format knowledge to expand Samsung generation coverage.
+`.scm` / `map-SateD`
+
+Supported legacy satellite record profiles:
+
+- 144 bytes — B/C generations
+- 172 bytes — D generation
+- 168 bytes — E/F/H and some J generations
+
+Status: **Software tested.** Real-TV validation pending.
 
 ### LG webOS
-`GlobalClone00001.TLL`
+
+`GlobalClone*.TLL`
 
 Status: **Experimental.**
 
 ### LG Legacy / NetCast
+
 Binary `xx*.TLL`
 
-Status: **v7 ChanSort-derived pilot.** The first pilot profile is based on the real `xxMT47U-PZS00001.TLL` sample. The new parser follows the TLL DVB-S block structure, linked channel list and CRC32 rules instead of heuristic record scanning.
+Status: **Software-tested ChanSort-derived v7 pilot.** The pilot profile is based on the real `xxMT47U-PZS00001.TLL` sample and follows the DVB-S block structure, linked channel list and CRC32 rules rather than heuristic record scanning.
 
-### Vestel platform
+### TCL / Thomson
+
+`.tar` containing TCL channel database files, typically:
+
+- `database/userdata/DtvData.db`
+- `database/userdata/satellite.db` (when present)
+- `database/cloneCRC.bin`
+
+Status: **Software round-trip tested with a real sample.** SQLite integrity and CRC16-CCITT validation passed. Real-TV import validation pending.
+
+### Vestel
+
 `.sdx` / `SATCODX`
 
-Status: **Experimental.** ChanSort's SatcoDX loader will be evaluated for broader compatible-platform support.
+Status: **Experimental.**
 
-## v7 Format Engine Roadmap
+## Deferred Formats
 
-The current migration plan is:
+### Hisense
 
-1. LG Legacy / NetCast binary TLL pilot
-2. Samsung expansion
-3. TCL
-4. Hisense
-5. Panasonic
-6. Philips
-7. Grundig / MediaTek / Toshiba / Sharp and additional families
+No active support is advertised until a real TV export sample is available.
 
-See [`docs/CHANSORT_SUPPORT_MATRIX.md`](docs/CHANSORT_SUPPORT_MATRIX.md) for the loader inventory and port matrix.
+### Philips
+
+No active support is advertised until a real TV export sample is available.
+
+## v7 Architecture
+
+The core browser UI uses a brand-independent channel model and modular TV format adapters. Native, already validated implementations are preserved where appropriate, while selected format-specific logic can be adapted from ChanSort under GPLv3.
+
+The UI deliberately does not expose every low-level TV flag. `Kaldır` is treated as a reversible operation: adapters retain enough source-record information for a removed channel to be found and re-added later whenever the underlying format allows it.
+
+See [`docs/CHANSORT_SUPPORT_MATRIX.md`](docs/CHANSORT_SUPPORT_MATRIX.md) for the ChanSort loader inventory and port notes.
 
 ## Acknowledgements
 
@@ -100,15 +136,19 @@ ChanSort: https://github.com/PredatH0r/ChanSort
 
 ChanSort is licensed under GNU GPL v3. TV Channel Editor Pro is also licensed under GNU GPL v3.
 
-The ChanSort Windows/DevExpress user interface is not being ported. TV Channel Editor Pro keeps its own HalilsIT browser interface and workflow; only useful format-specific parsing, serialization, mapping and checksum logic is adapted where needed.
+The ChanSort Windows/DevExpress user interface is not ported. TV Channel Editor Pro keeps its own HalilsIT browser interface and workflow; only useful format-specific parsing, serialization, mapping, layout and checksum logic is adapted where needed.
 
 See [`CREDITS.md`](CREDITS.md) for detailed attribution.
 
 ## Privacy
 
-TV channel list files are processed locally in your browser.
+TV channel list files are processed locally in the browser.
 
-No channel list data is uploaded to a server.
+No channel-list data is uploaded to a server. No cookies or browser storage are required for channel-list processing.
+
+## Contact
+
+halilsit@outlook.com
 
 ## Support
 
