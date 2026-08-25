@@ -1,62 +1,64 @@
 # ChanSort ↔ TV Channel Editor Pro Support Matrix
 
-This document tracks ChanSort loader projects and how they relate to TV Channel Editor Pro.
+This document records how ChanSort loader knowledge relates to the active TV Channel Editor Pro `v7.9.0.5-rc6` scope.
 
-Status meanings:
+The project is currently in **feature freeze**. The matrix is no longer a promise to port every ChanSort loader.
 
-- **Validated** — tested on real TV hardware in TV Channel Editor Pro.
-- **Experimental** — parser/export exists but real-TV validation is pending.
-- **v7 Pilot** — being reworked with ChanSort-derived format logic.
-- **Planned** — ChanSort has a relevant loader; no TV Channel Editor Pro adapter yet.
-- **Reference / utility** — not a TV-format adapter target.
+## Status meanings
 
-| ChanSort loader | Main family / format role | TV Channel Editor Pro status | v7 direction |
+- **Real-TV validated** — tested successfully on actual TV hardware in TV Channel Editor Pro.
+- **Software tested** — parser/export/integrity behavior validated with real sample files, but TV hardware import is still pending.
+- **Experimental** — parser/export exists, but validation is limited.
+- **Deferred** — no active adapter; real sample required before implementation is advertised.
+- **Reference only** — ChanSort may contain useful knowledge, but no active port is planned for this development cycle.
+
+## Active TV Channel Editor Pro formats
+
+| Brand / family | Format | TV Channel Editor Pro status | Relationship to ChanSort |
 |---|---|---|---|
-| `ChanSort.Loader.Amdb` | AMDB family | Not supported | Planned after major TV brands |
-| `ChanSort.Loader.Android` | Android TV-related channel data | Not supported | Planned / evaluate by vendor |
-| `ChanSort.Loader.CmdbBin` | `dtv_cmdb_*.bin` family | Not supported | Planned; useful for several OEM brands |
-| `ChanSort.Loader.DBM` | `.DBM` receiver/TV databases | Not supported | Planned later |
-| `ChanSort.Loader.Enigma2` | Enigma2 bouquets/services | Not supported | Optional later |
-| `ChanSort.Loader.Grundig` | Grundig XML/binary families | Not supported | Planned |
-| `ChanSort.Loader.Hisense` | Hisense DB/BIN/CSV families | Not supported | High-priority planned |
-| `ChanSort.Loader.LG` | LG binary TLL + GlobalClone | **GlobalClone experimental; Legacy v7 Pilot** | First ChanSort-derived port |
-| `ChanSort.Loader.Loewe` | Loewe channel lists | Not supported | Planned later |
-| `ChanSort.Loader.M3u` | SAT>IP / M3U | Not supported | Optional later |
-| `ChanSort.Loader.MediaTek` | MediaTek-platform TV formats | Not supported | Important shared-OEM candidate |
-| `ChanSort.Loader.Medion` | Medion-specific formats | Not supported | Planned later |
-| `ChanSort.Loader.Panasonic` | Panasonic SQLite/BIN/TXT/SDX families | Not supported | High-priority planned |
-| `ChanSort.Loader.Philips` | Philips binary/XML/database families | Not supported | High-priority planned |
-| `ChanSort.Loader.Samsung` | Samsung SCM + newer ZIP/DB families | **Legacy SCM experimental** | Expand existing adapter from ChanSort |
-| `ChanSort.Loader.SatcoDX` | SatcoDX text/binary lists | **Vestel SATCODX experimental** | Compare/merge knowledge; broaden OEM support |
-| `ChanSort.Loader.Sharp` | Sharp CSV and related OEMs | Not supported | Planned |
-| `ChanSort.Loader.Sony` | Sony `sdb.xml` | **Validated on real Sony TV** | Keep native adapter; expand only where useful |
-| `ChanSort.Loader.TCL` | TCL channel-list formats | Not supported | **High-priority planned** |
-| `ChanSort.Loader.TechniSat` | TechniSat formats | Not supported | Planned later |
-| `ChanSort.Loader.Toshiba` | Toshiba SQLite/ZIP families | Not supported | Planned |
-| `ChanSort.Loader.VDR` | VDR text lists | Not supported | Optional later |
-| `ChanSort.Loader.VisionEdge4K` | Vision Edge 4K | Not supported | Planned later |
-| `ChanSort.Loader.LG.UI` | ChanSort LG desktop UI helper | Not applicable | Do not port |
-| `ChanSort.Loader.RefList` | ChanSort reference-list utility | Not applicable | Do not port initially |
-| `ChanSort.Loader.Unsupported` | Unsupported-format diagnostics | Not applicable | Reference only |
+| Sony Bravia | `sdb.xml` | **Real-TV validated** | Native/original HalilsIT implementation; ChanSort is not the basis of the active adapter |
+| Samsung Legacy | `.scm / map-SateD` 144/168/172B | **Software tested** | Original 168B sample work later expanded/verified with ChanSort Samsung mappings |
+| LG webOS | `GlobalClone*.TLL` | **Experimental** | Predominantly original HalilsIT sample analysis / implementation |
+| LG Legacy / NetCast | binary `xx*.TLL` | **Software tested** | Hybrid: ChanSort-derived container/layout/CRC logic + original 687532-byte / 84-byte sample profile analysis |
+| TCL / Thomson | `.tar` with `DtvData.db` + `cloneCRC.bin` | **Software round-trip tested** | ChanSort-derived schema/edit-flag/CRC knowledge + original browser TAR/SQLite implementation |
+| Vestel | `.sdx / SATCODX` | **Experimental** | Predominantly original HalilsIT sample analysis; ChanSort SatcoDX remains a reference |
 
-## Current TV Channel Editor Pro adapters
+## Deferred formats
 
-| Brand / family | Format | Status |
-|---|---|---|
-| Sony Bravia | `sdb.xml` | **Real-TV validated** |
-| Samsung Legacy | `.scm` / `map-SateD` 168B | Experimental |
-| LG webOS | `GlobalClone00001.TLL` | Experimental |
-| LG Legacy / NetCast | binary `xx*.TLL` | **v7 ChanSort-derived pilot** |
-| Vestel platform | `.sdx` / `SATCODX` 133B | Experimental |
+| ChanSort loader | Family | TV Channel Editor Pro status | Current decision |
+|---|---|---|---|
+| `ChanSort.Loader.Hisense` | Hisense DB/BIN/CSV families | Deferred | Do not advertise support without a real export sample |
+| `ChanSort.Loader.Philips` | Philips binary/XML/database families | Deferred | Do not advertise support without a real export sample |
 
-## Suggested port priority after LG pilot
+## ChanSort loaders not targeted in the current cycle
 
-1. Samsung — use ChanSort to expand beyond the single legacy SCM profile.
-2. TCL — high sales volume and explicit ChanSort loader.
-3. Hisense — multiple database/BIN families already covered by ChanSort.
-4. Panasonic — several SQLite/BIN/TXT/SDX generations.
-5. Philips — several binary/XML/database generations.
-6. Grundig / MediaTek / Toshiba / Sharp.
-7. Receiver and niche families (`DBM`, Enigma2, VDR, M3U, etc.).
+The following loaders may be useful references in the future, but no active port is planned for the current frozen scope:
 
-Source inventory: ChanSort `source/` directory and `source/build.md`, inspected for the v7 migration.
+- `ChanSort.Loader.Amdb`
+- `ChanSort.Loader.Android`
+- `ChanSort.Loader.CmdbBin`
+- `ChanSort.Loader.DBM`
+- `ChanSort.Loader.Enigma2`
+- `ChanSort.Loader.Grundig`
+- `ChanSort.Loader.Loewe`
+- `ChanSort.Loader.M3u`
+- `ChanSort.Loader.MediaTek`
+- `ChanSort.Loader.Medion`
+- `ChanSort.Loader.Panasonic`
+- `ChanSort.Loader.Sharp`
+- `ChanSort.Loader.TechniSat`
+- `ChanSort.Loader.Toshiba`
+- `ChanSort.Loader.VDR`
+- `ChanSort.Loader.VisionEdge4K`
+
+Support/helper projects such as `ChanSort.Loader.LG.UI`, `ChanSort.Loader.RefList` and `ChanSort.Loader.Unsupported` are not TV-format adapter targets.
+
+## Attribution policy
+
+TV Channel Editor Pro is not a ChanSort UI port and should not be described as one.
+
+The HalilsIT browser UI, workflow, generic channel model, filtering, ordering, wide editor, Undo/Redo, reversible-remove model, offline architecture and adapter abstraction are original project work.
+
+Where selected format-engine logic is derived from ChanSort, the corresponding source section should retain an explicit ChanSort attribution comment and remain compliant with GNU GPL v3.
+
+See `CREDITS.md` for adapter-by-adapter attribution details.
