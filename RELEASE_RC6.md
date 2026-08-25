@@ -6,7 +6,7 @@ Release-candidate checkpoint created on 2026-08-25 during final stabilization be
 
 Expected file name:
 
-`tv_kanal_editoru_pro_v7.9.0.5-rc6(gpl-header-credit-balance).html`
+`tv_kanal_editoru_pro_v7.9.0.5-rc6.html`
 
 SHA-256:
 
